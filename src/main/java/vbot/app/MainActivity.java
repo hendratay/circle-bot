@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
@@ -29,9 +30,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;;
+import java.lang.Thread;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,6 +52,10 @@ public class MainActivity extends AppCompatActivity
     private Button scanButton;
     private ProgressBar scanProgress;
     private static final int REQUEST_ENABLE_BT = 1;
+    private ProgressDialog connectDialog;
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    private ConnectThread mConnectThread;
+    private ConnectedThread mConnectedThread;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -77,6 +87,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDestroy(){
         super.onDestroy();
+        if (mConnectThread != null) {
+            mConnectThread.cancel();
+        }
         unregisterReceiver(mReceiver);
     }
 
@@ -119,6 +132,8 @@ public class MainActivity extends AppCompatActivity
                 public void onItemClick(AdapterView av, View v, int position, long id) {
                     mBluetoothAdapter.cancelDiscovery();
                     BluetoothDevice device = (BluetoothDevice) mListView.getItemAtPosition(position);
+                    mConnectThread = new ConnectThread(device);
+                    mConnectThread.start();
                 }
             });
         }
@@ -173,6 +188,22 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    private Drawable getDrawableByMajorClass(int major) {
+        Drawable drawable = null;
+            switch (major) {
+                case BluetoothClass.Device.Major.COMPUTER:
+                    drawable = getResources().getDrawable(R.drawable.computer_icon);
+                    break;
+                case BluetoothClass.Device.Major.PHONE:
+                    drawable = getResources().getDrawable(R.drawable.phone_icon);
+                    break;
+                default:
+                    drawable = getResources().getDrawable(R.drawable.device_icon);
+                    break;
+            }
+        return drawable;
+    }
+
     public class bluetoothDialogFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstance) {
@@ -218,19 +249,78 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private Drawable getDrawableByMajorClass(int major) {
-        Drawable drawable = null;
-            switch (major) {
-                case BluetoothClass.Device.Major.COMPUTER:
-                    drawable = getResources().getDrawable(R.drawable.computer_icon);
-                    break;
-                case BluetoothClass.Device.Major.PHONE:
-                    drawable = getResources().getDrawable(R.drawable.phone_icon);
-                    break;
-                default:
-                    drawable = getResources().getDrawable(R.drawable.device_icon);
-                    break;
+    private class ConnectThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final BluetoothDevice mmDevice;
+
+        public ConnectThread(BluetoothDevice device) {
+            BluetoothSocket tmp = null;
+            mmDevice = device;
+            try {
+                tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+            } catch (IOException e) {
             }
-        return drawable;
+            mmSocket = tmp;
+        }
+        
+        public void run() {
+            try {
+                mmSocket.connect();
+            } catch (IOException connectException) {
+                try {
+                    mmSocket.close();
+                } catch (IOException closeException) {
+                }
+                return;
+            }
+            Fragment frag = getFragmentManager().findFragmentByTag("bluetooth");
+            DialogFragment df = (DialogFragment) frag;
+            df.dismiss();
+            mConnectedThread = new ConnectedThread(mmSocket);
+            mConnectedThread.start();
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
+    private class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;;
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = null;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+            try {
+                tmpIn = socket.getInputStream();
+            } catch (IOException e) {
+            }
+            try {
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+            }
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void write(byte[] bytes) {
+            try {
+                mmOutStream.write(bytes);
+            } catch (IOException e) {
+            }
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+            }
+        }
     }
 }
