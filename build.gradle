@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter();
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.1'
+    }
+}
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 'android-23'
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 23
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            //runProguard false
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    //compile 'com.android.support:support-v4:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+}

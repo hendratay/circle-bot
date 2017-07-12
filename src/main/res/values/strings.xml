@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MainActivity</string>
+    <!--main.xml-->
+    <string name="bluetooth">Bluetooth</string>
+    <!--bluetooth_dialog.xml-->
+    <string name="selectdevice">Select Device to Connect</string>
+    <string name="paired">Paired Devices</string>
+    <string name="available">Available Devices</string>
+    <string name="scan">Scan</string>
+</resources>
