@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 //import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -134,6 +135,9 @@ public class MainActivity extends AppCompatActivity
                     BluetoothDevice device = (BluetoothDevice) mListView.getItemAtPosition(position);
                     mConnectThread = new ConnectThread(device);
                     mConnectThread.start();
+                    connectDialog = new ProgressDialog(MainActivity.this);
+                    connectDialog.setMessage("Start Connecting ...");
+                    connectDialog.show();
                 }
             });
         }
@@ -271,13 +275,38 @@ public class MainActivity extends AppCompatActivity
                     mmSocket.close();
                 } catch (IOException closeException) {
                 }
-                return;
+                //return;
             }
-            Fragment frag = getFragmentManager().findFragmentByTag("bluetooth");
-            DialogFragment df = (DialogFragment) frag;
-            df.dismiss();
-            mConnectedThread = new ConnectedThread(mmSocket);
-            mConnectedThread.start();
+            if (mmSocket.isConnected()) {
+                Fragment frag = getFragmentManager().findFragmentByTag("bluetooth");
+                DialogFragment df = (DialogFragment) frag;
+                df.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectDialog.setMessage("Connection Successfull");
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                connectDialog.dismiss();
+                            }
+                        }, 2000);
+                    }
+                });
+                mConnectedThread = new ConnectedThread(mmSocket);
+                mConnectedThread.start();
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectDialog.setMessage("Connection Failed");
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                connectDialog.dismiss();
+                            }
+                        }, 2000);
+                    }
+                });
+            }
         }
 
         public void cancel() {
