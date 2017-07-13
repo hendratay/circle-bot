@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -64,7 +65,68 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Button upButton = (Button) findViewById(R.id.up);
+        Button downButton = (Button) findViewById(R.id.down);
+        Button leftButton = (Button) findViewById(R.id.left);
+        Button rightButton = (Button) findViewById(R.id.right);
+        Button stopButton = (Button) findViewById(R.id.stop);
         Button bluetoothButton = (Button) findViewById(R.id.bluetooth);
+        upButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    mConnectedThread.write("u".toString().getBytes());
+                    return true;
+                } else if (action == MotionEvent.ACTION_UP) {
+                    mConnectedThread.write("s".toString().getBytes());
+                    return true;
+                }
+                return false;
+            }
+        });
+        downButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    mConnectedThread.write("d".toString().getBytes());
+                    return true;
+                } else if (action == MotionEvent.ACTION_UP) {
+                    mConnectedThread.write("s".toString().getBytes());
+                    return true;
+                }
+                return false;
+            }
+        });
+        leftButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    mConnectedThread.write("l".toString().getBytes());
+                    return true;
+                } else if (action == MotionEvent.ACTION_UP) {
+                    mConnectedThread.write("s".toString().getBytes());
+                    return true;
+                }
+                return false;
+            }
+        });
+        rightButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    mConnectedThread.write("r".toString().getBytes());
+                    return true;
+                } else if (action == MotionEvent.ACTION_UP) {
+                    mConnectedThread.write("s".toString().getBytes());
+                    return true;
+                }
+                return false;
+            }
+        });
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 openBluetoothDialog();
