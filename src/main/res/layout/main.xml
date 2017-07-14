@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="#ffffff"
         android:layout_width="240dp"
@@ -16,45 +25,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/stop"
-            android:text="@string/stop"
-            android:layout_below="@id/up"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/down"
-            android:text="@string/down"
-            android:layout_below="@id/stop"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
             android:id="@+id/left"
             android:text="@string/left"
-            android:layout_toLeftOf="@id/stop"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/right"
             android:text="@string/right"
-            android:layout_toRightOf="@id/stop"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/down"
+            android:text="@string/down"
+            android:layout_below="@id/left"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="#ffffff"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true">
+        <TextView
+            android:id="@+id/connectedbluetooth"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connectedbluetooth" />
         <Button
             android:id="@+id/bluetooth"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bluetooth" />
+        <Switch
+            android:id="@+id/vacuum"
+            android:layout_below="@id/bluetooth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center"
+            android:text="@string/vacuum" />
+        <Switch
+            android:id="@+id/auto"
+            android:layout_below="@id/vacuum"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center"
+            android:text="@string/auto" />
     </RelativeLayout>
 </RelativeLayout>

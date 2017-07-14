@@ -18,8 +18,9 @@ import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-//import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,11 @@ import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -51,11 +54,12 @@ public class MainActivity extends AppCompatActivity
     private Set<BluetoothDevice> pairedDevices;
     private ListView mListView;
     private ListView mUnpairedListView;
+    private TextView connectedBluetooth;
     private Button scanButton;
     private ProgressBar scanProgress;
-    private static final int REQUEST_ENABLE_BT = 1;
     private ProgressDialog connectDialog;
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); 
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
 
@@ -65,12 +69,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         Button upButton = (Button) findViewById(R.id.up);
         Button downButton = (Button) findViewById(R.id.down);
         Button leftButton = (Button) findViewById(R.id.left);
         Button rightButton = (Button) findViewById(R.id.right);
-        Button stopButton = (Button) findViewById(R.id.stop);
+        connectedBluetooth = (TextView) findViewById(R.id.connectedbluetooth);
         Button bluetoothButton = (Button) findViewById(R.id.bluetooth);
+        Switch vacuumSwitch = (Switch) findViewById(R.id.vacuum);
+        Switch autoSwitch = (Switch) findViewById(R.id.auto);
+        setSupportActionBar(myToolbar);
         upButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -80,7 +88,6 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 } else if (action == MotionEvent.ACTION_UP) {
                     mConnectedThread.write("s".toString().getBytes());
-                    return true;
                 }
                 return false;
             }
@@ -94,7 +101,6 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 } else if (action == MotionEvent.ACTION_UP) {
                     mConnectedThread.write("s".toString().getBytes());
-                    return true;
                 }
                 return false;
             }
@@ -108,7 +114,6 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 } else if (action == MotionEvent.ACTION_UP) {
                     mConnectedThread.write("s".toString().getBytes());
-                    return true;
                 }
                 return false;
             }
@@ -122,14 +127,32 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 } else if (action == MotionEvent.ACTION_UP) {
                     mConnectedThread.write("s".toString().getBytes());
-                    return true;
                 }
                 return false;
             }
         });
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 openBluetoothDialog();
+            }
+        });
+        vacuumSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    mConnectedThread.write("a".toString().getBytes());
+                } else {
+                    mConnectedThread.write("b".toString().getBytes());
+                }
+            }
+        });
+        autoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                } else {
+                }
             }
         });
 
@@ -195,6 +218,9 @@ public class MainActivity extends AppCompatActivity
                 public void onItemClick(AdapterView av, View v, int position, long id) {
                     mBluetoothAdapter.cancelDiscovery();
                     BluetoothDevice device = (BluetoothDevice) mListView.getItemAtPosition(position);
+                    if (mConnectThread != null) {
+                        mConnectThread.cancel();
+                    }
                     mConnectThread = new ConnectThread(device);
                     mConnectThread.start();
                     connectDialog = new ProgressDialog(MainActivity.this);
@@ -348,10 +374,12 @@ public class MainActivity extends AppCompatActivity
                     public void run() {
                         connectDialog.setMessage("Connection Successfull");
                         new Handler().postDelayed(new Runnable() {
+                            @Override
                             public void run() {
                                 connectDialog.dismiss();
                             }
                         }, 2000);
+                        connectedBluetooth.setText("Connected To : " + mmDevice.getName());
                     }
                 });
                 mConnectedThread = new ConnectedThread(mmSocket);
@@ -362,6 +390,7 @@ public class MainActivity extends AppCompatActivity
                     public void run() {
                         connectDialog.setMessage("Connection Failed");
                         new Handler().postDelayed(new Runnable() {
+                            @Override
                             public void run() {
                                 connectDialog.dismiss();
                             }

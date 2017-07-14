@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MainActivity</string>
+    <string name="app_name">VBot</string>
     <!--main.xml-->
     <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="left">Left</string>
     <string name="right">Rigth</string>
-    <string name="stop">Stop</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="vacuum">Vacuum</string>
+    <string name="auto">Auto</string>
+    <string name="connectedbluetooth">No Device Connected</string>
     <!--bluetooth_dialog.xml-->
     <string name="selectdevice">Select Device to Connect</string>
     <string name="paired">Paired Devices</string>
