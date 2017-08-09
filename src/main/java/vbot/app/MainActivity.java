@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
@@ -29,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,9 +57,17 @@ public class MainActivity extends AppCompatActivity
     private ListView mListView;
     private ListView mUnpairedListView;
     private TextView connectedBluetooth;
+    private Button upButton;
     private Button scanButton;
     private ProgressBar scanProgress;
     private ProgressDialog connectDialog;
+    private EditText timeInput;
+    private Button sendButton;
+    private int waktu;
+    private int waktuDetik;
+    private otomatisasiCountDown timer;
+    private boolean timerIsStarted = false;
+    private TextView waktuText;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); 
     private ConnectThread mConnectThread;
@@ -70,14 +80,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        Button upButton = (Button) findViewById(R.id.up);
+        upButton = (Button) findViewById(R.id.up);
         Button downButton = (Button) findViewById(R.id.down);
         Button leftButton = (Button) findViewById(R.id.left);
         Button rightButton = (Button) findViewById(R.id.right);
         connectedBluetooth = (TextView) findViewById(R.id.connectedbluetooth);
         Button bluetoothButton = (Button) findViewById(R.id.bluetooth);
         Switch vacuumSwitch = (Switch) findViewById(R.id.vacuum);
-        Switch autoSwitch = (Switch) findViewById(R.id.auto);
+        Button autoDialogButton = (Button) findViewById(R.id.auto);
+        Button autoOffButton = (Button) findViewById(R.id.autoOff);
+        waktuText = (TextView) findViewById(R.id.waktuOtomatisasi);
         setSupportActionBar(myToolbar);
         upButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -147,12 +159,21 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        autoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        autoDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                } else {
-                }
+            public void onClick(View v) {
+                openAutomateDialog();
+            }
+        });
+
+        autoOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                waktu = 0;
+                //mConnectedThread.write(waktu.getBytes());
+                timer.cancel();
+                waktuText.setText("cancel");
+                timerIsStarted = false;
             }
         });
 
@@ -162,6 +183,26 @@ public class MainActivity extends AppCompatActivity
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         registerReceiver(mReceiver, filter);
+
+        Thread cekWaktu = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cekWaktu();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        cekWaktu.start();
+
     }
 
     @Override
@@ -187,6 +228,29 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void cekWaktu() {
+        if(waktu != 0) {
+            upButton.setEnabled(false);
+        } else {
+            upButton.setEnabled(true);
+        }
+    }
+
+    public class otomatisasiCountDown extends CountDownTimer {
+        public otomatisasiCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+        @Override
+        public void onTick(long millisUntilFinished) {
+            waktuText.setText("seconds remaining: " + millisUntilFinished / 1000);
+        }
+        @Override
+        public void onFinish() {
+            timerIsStarted = false;
+            waktuText.setText("done!");
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_ENABLE_BT) {
             if(resultCode == RESULT_CANCELED) {
@@ -196,8 +260,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void openBluetoothDialog() {
-        DialogFragment newFragment = new bluetoothDialogFragment();
-        newFragment.show(getFragmentManager(), "bluetooth");
+        DialogFragment bluetoothFragment = new bluetoothDialogFragment();
+        bluetoothFragment.show(getFragmentManager(), "bluetooth");
+    }
+
+    public void openAutomateDialog() {
+        DialogFragment automateFragment = new automateTimeDialogFragment();
+        automateFragment.show(getFragmentManager(), "automate");
     }
 
     private void pairedDevicesList() {
@@ -308,6 +377,7 @@ public class MainActivity extends AppCompatActivity
             scanButton = (Button) view.findViewById(R.id.scan);
             scanProgress = (ProgressBar) view.findViewById(R.id.progressbar);
             scanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View v) {
                     mBluetoothAdapter.startDiscovery();
                 }
@@ -315,6 +385,38 @@ public class MainActivity extends AppCompatActivity
 
             builder.setView(view);
             pairedDevicesList();
+            return builder.create();
+        }
+    }
+
+    public class automateTimeDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstance) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.automate_dialog, null);
+
+            timeInput = (EditText) view.findViewById(R.id.time);
+            sendButton = (Button) view.findViewById(R.id.send);
+            sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    waktu = Integer.parseInt(timeInput.getText().toString());
+                    //mConnectedThread.write(waktu.getBytes());
+                    waktuDetik = waktu * 60000;
+                    timer = new otomatisasiCountDown(waktuDetik, 1000);
+                    getDialog().dismiss();
+                    if(!timerIsStarted){
+                        timerIsStarted = true;
+                        timer.start();
+                    } else {
+                        timerIsStarted = false;
+                        timer.cancel();
+                        waktuText.setText("batal");
+                    }
+                }
+            });
+            builder.setView(view);
             return builder.create();
         }
     }

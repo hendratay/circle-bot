@@ -8,11 +8,19 @@
     <string name="right">Rigth</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="vacuum">Vacuum</string>
-    <string name="auto">Auto</string>
     <string name="connectedbluetooth">No Device Connected</string>
+    <string name="autoText">Auto</string>
+    <string name="auto">Waktu Otomatisasi</string>
+    <string name="autoOff">Turn Off</string>
+    <string name="waktuOtomatisasi"></string>
     <!--bluetooth_dialog.xml-->
     <string name="selectdevice">Select Device to Connect</string>
     <string name="paired">Paired Devices</string>
     <string name="available">Available Devices</string>
     <string name="scan">Scan</string>
+    <!--automate_dialog.xml-->
+    <string name="otomatisasi">Waktu Otomatisasi Pembersihan Ruangan</string>
+    <string name="masukkan">Masukkan Waktu Otomatisasi Pembersihan Ruangan</string>
+    <string name="menit">Menit</string>
+    <string name="send">Send</string>
 </resources>

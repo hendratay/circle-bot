@@ -66,19 +66,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bluetooth" />
+        <TextView
+            android:id="@+id/vacuumText"
+            android:layout_below="@id/bluetooth"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vacuum" />
         <Switch
             android:id="@+id/vacuum"
             android:layout_below="@id/bluetooth"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:text="@string/vacuum" />
-        <Switch
+            android:layout_alignParentRight="true" />
+        <TextView
+            android:id="@+id/autoText"
+            android:layout_below="@id/vacuum"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/autoText" />
+        <Button
+            android:id="@+id/autoOff"
+            android:layout_below="@id/vacuum"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/autoOff" />
+        <Button
             android:id="@+id/auto"
             android:layout_below="@id/vacuum"
-            android:layout_width="fill_parent"
+            android:layout_toLeftOf="@id/autoOff"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
             android:text="@string/auto" />
+        <TextView
+            android:id="@+id/waktuOtomatisasi"
+            android:layout_below="@id/autoText"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waktuOtomatisasi" />
     </RelativeLayout>
 </RelativeLayout>
