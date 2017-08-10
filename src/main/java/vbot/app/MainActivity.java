@@ -43,6 +43,7 @@ import java.io.OutputStream;;
 import java.lang.Thread;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,6 +59,12 @@ public class MainActivity extends AppCompatActivity
     private ListView mUnpairedListView;
     private TextView connectedBluetooth;
     private Button upButton;
+    private Button leftButton;
+    private Button rightButton;
+    private Button downButton;;
+    private Button bluetoothButton;
+    private Switch vacuumSwitch;
+    private Button autoOffButton;
     private Button scanButton;
     private ProgressBar scanProgress;
     private ProgressDialog connectDialog;
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity
     private int waktu;
     private int waktuDetik;
     private otomatisasiCountDown timer;
-    private boolean timerIsStarted = false;
+    private Button autoDialogButton;
     private TextView waktuText;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); 
@@ -81,14 +88,14 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         upButton = (Button) findViewById(R.id.up);
-        Button downButton = (Button) findViewById(R.id.down);
-        Button leftButton = (Button) findViewById(R.id.left);
-        Button rightButton = (Button) findViewById(R.id.right);
+        downButton = (Button) findViewById(R.id.down);
+        leftButton = (Button) findViewById(R.id.left);
+        rightButton = (Button) findViewById(R.id.right);
         connectedBluetooth = (TextView) findViewById(R.id.connectedbluetooth);
-        Button bluetoothButton = (Button) findViewById(R.id.bluetooth);
-        Switch vacuumSwitch = (Switch) findViewById(R.id.vacuum);
-        Button autoDialogButton = (Button) findViewById(R.id.auto);
-        Button autoOffButton = (Button) findViewById(R.id.autoOff);
+        bluetoothButton = (Button) findViewById(R.id.bluetooth);
+        vacuumSwitch = (Switch) findViewById(R.id.vacuum);
+        autoDialogButton = (Button) findViewById(R.id.auto);
+        autoOffButton = (Button) findViewById(R.id.autoOff);
         waktuText = (TextView) findViewById(R.id.waktuOtomatisasi);
         setSupportActionBar(myToolbar);
         upButton.setOnTouchListener(new View.OnTouchListener() {
@@ -170,10 +177,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 waktu = 0;
-                //mConnectedThread.write(waktu.getBytes());
+                String sendWaktu = Integer.toString(waktu);
+                //mConnectedThread.write(sendWaktu.getBytes());
                 timer.cancel();
-                waktuText.setText("cancel");
-                timerIsStarted = false;
+                waktuText.setText("");
+                autoDialogButton.setEnabled(true);
+                upButton.setEnabled(true);
+                downButton.setEnabled(true);
+                leftButton.setEnabled(true);
+                rightButton.setEnabled(true);
+                bluetoothButton.setEnabled(true);
+                vacuumSwitch.setEnabled(true);
+                autoOffButton.setEnabled(false);
             }
         });
 
@@ -184,24 +199,24 @@ public class MainActivity extends AppCompatActivity
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         registerReceiver(mReceiver, filter);
 
-        Thread cekWaktu = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cekWaktu();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        cekWaktu.start();
+        //Thread cekWaktu = new Thread() {
+            //@Override
+            //public void run() {
+                //try {
+                    //while (!isInterrupted()) {
+                        //Thread.sleep(1000);
+                        //runOnUiThread(new Runnable() {
+                            //@Override
+                            //public void run() {
+                                //cekWaktu();
+                            //}
+                        //});
+                    //}
+                //} catch (InterruptedException e) {
+                //}
+            //}
+        //};
+        //cekWaktu.start();
 
     }
 
@@ -228,13 +243,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void cekWaktu() {
-        if(waktu != 0) {
-            upButton.setEnabled(false);
-        } else {
-            upButton.setEnabled(true);
-        }
-    }
+    //public void cekWaktu() {
+        //if(waktu != 0) {
+            //upButton.setEnabled(false);
+        //} else {
+            //upButton.setEnabled(true);
+        //}
+    //}
 
     public class otomatisasiCountDown extends CountDownTimer {
         public otomatisasiCountDown(long millisInFuture, long countDownInterval) {
@@ -242,12 +257,23 @@ public class MainActivity extends AppCompatActivity
         }
         @Override
         public void onTick(long millisUntilFinished) {
-            waktuText.setText("seconds remaining: " + millisUntilFinished / 1000);
+            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % TimeUnit.MINUTES.toSeconds(1));
+            waktuText.setText(hms);
         }
         @Override
         public void onFinish() {
-            timerIsStarted = false;
-            waktuText.setText("done!");
+            waktuText.setText("");
+            autoDialogButton.setEnabled(true);
+            autoDialogButton.setEnabled(true);
+            upButton.setEnabled(true);
+            downButton.setEnabled(true);
+            leftButton.setEnabled(true);
+            rightButton.setEnabled(true);
+            bluetoothButton.setEnabled(true);
+            vacuumSwitch.setEnabled(true);
+            autoOffButton.setEnabled(false);
         }
     }
 
@@ -402,18 +428,20 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     waktu = Integer.parseInt(timeInput.getText().toString());
-                    //mConnectedThread.write(waktu.getBytes());
+                    String sendWaktu = Integer.toString(waktu);
+                    //mConnectedThread.write(sendWaktu.getBytes());
                     waktuDetik = waktu * 60000;
-                    timer = new otomatisasiCountDown(waktuDetik, 1000);
                     getDialog().dismiss();
-                    if(!timerIsStarted){
-                        timerIsStarted = true;
-                        timer.start();
-                    } else {
-                        timerIsStarted = false;
-                        timer.cancel();
-                        waktuText.setText("batal");
-                    }
+                    timer = new otomatisasiCountDown(waktuDetik, 1000);
+                    timer.start();
+                    autoDialogButton.setEnabled(false);
+                    upButton.setEnabled(false);
+                    downButton.setEnabled(false);
+                    leftButton.setEnabled(false);
+                    rightButton.setEnabled(false);
+                    bluetoothButton.setEnabled(false);
+                    vacuumSwitch.setEnabled(false);
+                    autoOffButton.setEnabled(true);
                 }
             });
             builder.setView(view);
@@ -529,6 +557,23 @@ public class MainActivity extends AppCompatActivity
             }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] mmBuffer = new byte[1024];
+            int numBytes; // bytes returned from read()
+            while (true) {
+                try {
+                    numBytes = mmInStream.read(mmBuffer);
+                    String message = new String(mmBuffer, 0, numBytes);  
+                    waktu = Integer.parseInt(message);
+                    waktuDetik = waktu * 60000;
+                    timer = new otomatisasiCountDown(waktuDetik, 1000);
+                    timer.start();
+                    autoDialogButton.setEnabled(false);
+                } catch (IOException e) {
+                }
+            }
         }
 
         public void write(byte[] bytes) {
