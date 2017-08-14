@@ -7,12 +7,12 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#0A3D91"
+        app:titleTextColor="#ffffff"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#ffffff"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -47,7 +47,6 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#ffffff"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -75,6 +74,7 @@
             android:text="@string/vacuum" />
         <Switch
             android:id="@+id/vacuum"
+            android:padding="10dp"
             android:layout_below="@id/bluetooth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,12 +82,14 @@
         <TextView
             android:id="@+id/autoText"
             android:layout_below="@id/vacuum"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/autoText" />
         <Button
             android:id="@+id/autoOff"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/vacuum"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -95,6 +97,7 @@
             android:text="@string/autoOff" />
         <Button
             android:id="@+id/auto"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/vacuum"
             android:layout_toLeftOf="@id/autoOff"
             android:layout_width="wrap_content"
@@ -103,7 +106,9 @@
         <TextView
             android:id="@+id/waktuOtomatisasi"
             android:layout_below="@id/autoText"
-            android:padding="10dp"
+            android:textSize="30dp"
+            android:paddingTop="30dp"
+            android:paddingLeft="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/waktuOtomatisasi" />

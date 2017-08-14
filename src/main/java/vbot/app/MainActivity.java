@@ -160,9 +160,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    mConnectedThread.write("a".toString().getBytes());
+                    mConnectedThread.write("v".toString().getBytes());
                 } else {
-                    mConnectedThread.write("b".toString().getBytes());
+                    mConnectedThread.write("nv".toString().getBytes());
                 }
             }
         });
@@ -173,12 +173,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        autoOffButton.setEnabled(false);
         autoOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 waktu = 0;
                 String sendWaktu = Integer.toString(waktu);
-                //mConnectedThread.write(sendWaktu.getBytes());
+                mConnectedThread.write(sendWaktu.getBytes());
                 timer.cancel();
                 waktuText.setText("");
                 autoDialogButton.setEnabled(true);
@@ -264,6 +265,9 @@ public class MainActivity extends AppCompatActivity
         }
         @Override
         public void onFinish() {
+            //waktu = 0;
+            //String sendWaktu = Integer.toString(waktu);
+            //mConnectedThread.write(sendWaktu.getBytes());
             waktuText.setText("");
             autoDialogButton.setEnabled(true);
             autoDialogButton.setEnabled(true);
@@ -429,7 +433,7 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(View v) {
                     waktu = Integer.parseInt(timeInput.getText().toString());
                     String sendWaktu = Integer.toString(waktu);
-                    //mConnectedThread.write(sendWaktu.getBytes());
+                    mConnectedThread.write(sendWaktu.getBytes());
                     waktuDetik = waktu * 60000;
                     getDialog().dismiss();
                     timer = new otomatisasiCountDown(waktuDetik, 1000);
@@ -514,6 +518,9 @@ public class MainActivity extends AppCompatActivity
                 });
                 mConnectedThread = new ConnectedThread(mmSocket);
                 mConnectedThread.start();
+                waktu = 0;
+                String sendWaktu = Integer.toString(waktu);
+                mConnectedThread.write(sendWaktu.getBytes());
             } else {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -559,22 +566,30 @@ public class MainActivity extends AppCompatActivity
             mmOutStream = tmpOut;
         }
 
-        public void run() {
-            byte[] mmBuffer = new byte[1024];
-            int numBytes; // bytes returned from read()
-            while (true) {
-                try {
-                    numBytes = mmInStream.read(mmBuffer);
-                    String message = new String(mmBuffer, 0, numBytes);  
-                    waktu = Integer.parseInt(message);
-                    waktuDetik = waktu * 60000;
-                    timer = new otomatisasiCountDown(waktuDetik, 1000);
-                    timer.start();
-                    autoDialogButton.setEnabled(false);
-                } catch (IOException e) {
-                }
-            }
-        }
+        //public void run() {
+            //byte[] mmBuffer = new byte[1024];
+            //int numBytes; // bytes returned from read()
+            //while(true) {
+                //try {
+                    //numBytes = mmInStream.read(mmBuffer);
+                    //String message = new String(mmBuffer, 0, numBytes);  
+                    //waktu = Integer.parseInt(message);
+                    //waktuDetik = waktu * 60000;
+                    //waktuText.setText(waktu);
+                    //timer = new otomatisasiCountDown(waktu, 1000);
+                    //timer.start();
+                    //autoDialogButton.setEnabled(false);
+                    //upButton.setEnabled(false);
+                    //downButton.setEnabled(false);
+                    //leftButton.setEnabled(false);
+                    //rightButton.setEnabled(false);
+                    //bluetoothButton.setEnabled(false);
+                    //vacuumSwitch.setEnabled(false);
+                    //autoOffButton.setEnabled(true);
+                //} catch (IOException e) {
+                //}
+            //}
+        //}
 
         public void write(byte[] bytes) {
             try {

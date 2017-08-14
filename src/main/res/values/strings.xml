@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VBot</string>
+    <string name="app_name">Robot Vacuum Cleaner</string>
     <!--main.xml-->
     <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="left">Left</string>
-    <string name="right">Rigth</string>
+    <string name="right">Right</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="vacuum">Vacuum</string>
     <string name="connectedbluetooth">No Device Connected</string>
