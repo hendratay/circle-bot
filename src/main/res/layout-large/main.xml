@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0A3D91"
+        app:titleTextColor="#ffffff"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true">
+        <ImageButton
+            android:id="@+id/up"
+            android:text="@string/up"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/up"
+            android:background="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/left"
+            android:text="@string/left"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/left"
+            android:background="#ffffff"
+            android:layout_below="@id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/right"
+            android:text="@string/right"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/up"
+            android:src="@drawable/right"
+            android:background="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/down"
+            android:text="@string/down"
+            android:layout_below="@id/left"
+            android:src="@drawable/down"
+            android:background="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+        <TextView
+            android:id="@+id/connectedbluetooth"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connectedbluetooth" />
+        <Button
+            android:id="@+id/bluetooth"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bluetooth" />
+        <TextView
+            android:id="@+id/vacuumText"
+            android:layout_below="@id/bluetooth"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vacuum" />
+        <Switch
+            android:id="@+id/vacuum"
+            android:padding="10dp"
+            android:layout_below="@id/bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+        <TextView
+            android:id="@+id/autoText"
+            android:layout_below="@id/vacuum"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/autoText" />
+        <Button
+            android:id="@+id/autoOff"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/vacuum"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/autoOff" />
+        <Button
+            android:id="@+id/auto"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/vacuum"
+            android:layout_toLeftOf="@id/autoOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto" />
+        <TextView
+            android:id="@+id/waktuOtomatisasi"
+            android:layout_below="@id/autoText"
+            android:textSize="30dp"
+            android:paddingTop="30dp"
+            android:paddingLeft="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waktuOtomatisasi" />
+    </RelativeLayout>
+</RelativeLayout>
