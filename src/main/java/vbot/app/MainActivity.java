@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -58,10 +59,10 @@ public class MainActivity extends AppCompatActivity
     private ListView mListView;
     private ListView mUnpairedListView;
     private TextView connectedBluetooth;
-    private Button upButton;
-    private Button leftButton;
-    private Button rightButton;
-    private Button downButton;;
+    private ImageButton upButton;
+    private ImageButton leftButton;
+    private ImageButton rightButton;
+    private ImageButton downButton;;
     private Button bluetoothButton;
     private Switch vacuumSwitch;
     private Button autoOffButton;
@@ -87,10 +88,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        upButton = (Button) findViewById(R.id.up);
-        downButton = (Button) findViewById(R.id.down);
-        leftButton = (Button) findViewById(R.id.left);
-        rightButton = (Button) findViewById(R.id.right);
+        upButton = (ImageButton) findViewById(R.id.up);
+        downButton = (ImageButton) findViewById(R.id.down);
+        leftButton = (ImageButton) findViewById(R.id.left);
+        rightButton = (ImageButton) findViewById(R.id.right);
         connectedBluetooth = (TextView) findViewById(R.id.connectedbluetooth);
         bluetoothButton = (Button) findViewById(R.id.bluetooth);
         vacuumSwitch = (Switch) findViewById(R.id.vacuum);

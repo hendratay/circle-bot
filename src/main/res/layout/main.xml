@@ -18,31 +18,39 @@
         android:padding="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true">
-        <Button
+        <ImageButton
             android:id="@+id/up"
             android:text="@string/up"
             android:layout_centerHorizontal="true"
+            android:src="@drawable/up"
+            android:background="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ImageButton
             android:id="@+id/left"
             android:text="@string/left"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/up"
+            android:src="@drawable/left"
+            android:background="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ImageButton
             android:id="@+id/right"
             android:text="@string/right"
             android:layout_alignParentRight="true"
             android:layout_below="@id/up"
+            android:src="@drawable/right"
+            android:background="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ImageButton
             android:id="@+id/down"
             android:text="@string/down"
             android:layout_below="@id/left"
             android:layout_centerHorizontal="true"
+            android:src="@drawable/down"
+            android:background="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
@@ -64,6 +72,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#0A3D91"
             android:text="@string/bluetooth" />
         <TextView
             android:id="@+id/vacuumText"
