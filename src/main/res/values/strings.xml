@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Robot Vacuum Cleaner</string>
-    <!--main.xml-->
+    <string name="app_name">Circle Bot</string>
+    <!--activity_main.xml-->
     <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
-    <string name="bluetooth">Bluetooth</string>
-    <string name="vacuum">Vacuum</string>
-    <string name="connectedbluetooth">No Device Connected</string>
-    <string name="autoText">Auto</string>
-    <string name="auto">Waktu Otomatisasi</string>
-    <string name="autoOff">Turn Off</string>
-    <string name="waktuOtomatisasi"></string>
-    <!--bluetooth_dialog.xml-->
-    <string name="selectdevice">Select Device to Connect</string>
-    <string name="paired">Paired Devices</string>
-    <string name="available">Available Devices</string>
-    <string name="scan">Scan</string>
-    <!--automate_dialog.xml-->
-    <string name="otomatisasi">Waktu Otomatisasi Pembersihan Ruangan</string>
-    <string name="masukkan">Masukkan Waktu Otomatisasi Pembersihan Ruangan</string>
-    <string name="menit">Menit</string>
-    <string name="send">Send</string>
+    <string name="label_connected_bluetooth">No Device Connected</string>
+    <string name="btn_bluetooth">Bluetooth</string>
+    <string name="label_vacuum">Vacuum</string>
+    <string name="label_auto">Auto</string>
+    <string name="btn_auto_off">Turn Off</string>
+    <string name="label_auto_time">00:00:00</string>
+    <string name="btn_auto_time">Auto Time</string>
+    <!--dialog_bluetooth.xml-->
+    <string name="title_dialog_bluetooth">Select Device to Connect</string>
+    <string name="label_paired">Paired Devices</string>
+    <string name="label_available">Available Devices</string>
+    <string name="btn_scan">Scan</string>
+    <!--dialog_automate.xml-->
+    <string name="title_dialog_auto">Auto Clean Time</string>
+    <string name="label_input_time">Please Input Auto Clean Time</string>
+    <string name="hint_input_time">Input Auto Time...</string>
+    <string name="label_time">Minutes</string>
+    <string name="btn_send">Send</string>
 </resources>

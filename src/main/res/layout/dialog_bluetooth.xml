@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/toolbar_dialog_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0A3D91"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title_dialog_bluetooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_dialog_bluetooth"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_dialog_bluetooth"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center|end"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/label_paired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_paired"
+        android:textColor="#0A3D91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_dialog_bluetooth" />
+
+    <ListView
+        android:id="@+id/list_view_paired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/label_paired"
+        app:layout_constraintTop_toBottomOf="@+id/label_paired" />
+
+    <TextView
+        android:id="@+id/label_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_available"
+        android:textColor="#0A3D91"
+        app:layout_constraintStart_toStartOf="@+id/label_paired"
+        app:layout_constraintTop_toBottomOf="@+id/list_view_paired" />
+
+    <ListView
+        android:id="@+id/list_view_unpaired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/label_available"
+        app:layout_constraintTop_toBottomOf="@+id/label_available" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_scan"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_scan"
+        app:backgroundTint="#0A3D91"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_view_unpaired"
+        app:layout_constraintVertical_bias="1.0" />
+
+</android.support.constraint.ConstraintLayout>

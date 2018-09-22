@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="#0A3D91"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="#ffffff" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+        app:layout_constraintVertical_bias="0.40">
+
+        <ImageButton
+            android:id="@+id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:src="@drawable/up"
+            android:text="@string/up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:src="@drawable/left"
+            android:text="@string/left"
+            app:layout_constraintEnd_toStartOf="@+id/up"
+            app:layout_constraintTop_toBottomOf="@+id/up"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:src="@drawable/right"
+            android:text="@string/right"
+            app:layout_constraintStart_toEndOf="@+id/up"
+            app:layout_constraintTop_toBottomOf="@+id/up"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:src="@drawable/down"
+            android:text="@string/down"
+            app:layout_constraintEnd_toEndOf="@+id/up"
+            app:layout_constraintStart_toStartOf="@+id/up"
+            app:layout_constraintTop_toBottomOf="@+id/left"
+            tools:ignore="ContentDescription" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+        app:layout_constraintVertical_bias="0.40">
+
+        <TextView
+            android:id="@+id/label_connected_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_connected_bluetooth"
+            app:layout_constraintEnd_toStartOf="@+id/btn_bluetooth"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_bluetooth"
+            app:layout_constraintBottom_toBottomOf="@+id/label_connected_bluetooth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/label_connected_bluetooth" />
+
+        <TextView
+            android:id="@+id/label_vacuum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_vacuum"
+            app:layout_constraintStart_toStartOf="@+id/label_connected_bluetooth"
+            app:layout_constraintTop_toBottomOf="@+id/label_connected_bluetooth" />
+
+        <Switch
+            android:id="@+id/switch_vacuum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/label_vacuum"
+            app:layout_constraintStart_toStartOf="@+id/btn_bluetooth"
+            app:layout_constraintTop_toTopOf="@+id/label_vacuum" />
+
+        <TextView
+            android:id="@+id/label_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_auto"
+            app:layout_constraintStart_toStartOf="@+id/label_connected_bluetooth"
+            app:layout_constraintTop_toBottomOf="@+id/label_vacuum" />
+
+        <Button
+            android:id="@+id/btn_auto_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_auto_off"
+            app:layout_constraintBottom_toBottomOf="@+id/label_auto"
+            app:layout_constraintStart_toStartOf="@+id/switch_vacuum"
+            app:layout_constraintTop_toTopOf="@+id/label_auto" />
+
+        <TextView
+            android:id="@+id/label_auto_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_auto_time"
+            app:layout_constraintStart_toStartOf="@+id/label_auto"
+            app:layout_constraintTop_toBottomOf="@+id/label_auto" />
+
+        <Button
+            android:id="@+id/btn_auto_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_auto_time"
+            app:layout_constraintBottom_toBottomOf="@+id/label_auto_time"
+            app:layout_constraintStart_toStartOf="@+id/btn_auto_off"
+            app:layout_constraintTop_toTopOf="@+id/label_auto_time" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
